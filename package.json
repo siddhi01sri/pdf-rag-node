@@ -1,0 +1,20 @@
+{
+  "name": "pdf-rag-node",
+  "version": "1.0.0",
+  "description": "AI-powered PDF Chat system using Node.js, RAG pipeline, PostgreSQL (pgvector), and Ollama (local LLM)",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.14.0",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "multer": "^2.1.1",
+    "pdf-parse": "^2.4.5"
+  }
+}
