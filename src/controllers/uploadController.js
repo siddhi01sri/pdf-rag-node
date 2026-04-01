@@ -10,7 +10,11 @@ const uploadPdf = (req, res) => {
     return res.status(200).json({
       success: true,
       message: "File uploaded successfully",
-      file: req.file.filename
+      data: {
+        fileName: req.file.filename,
+        originalName: req.file.originalname,
+        size: req.file.size
+      }
     });
 
   } catch (error) {

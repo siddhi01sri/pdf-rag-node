@@ -1,8 +1,11 @@
 const express = require("express");
+const dotenv = require("dotenv");
+dotenv.config();
+
 const app = express();
 
 // routes
-const uploadRoutes = require("./routes/uploadRoutes");
+const uploadRoutes = require("./src/routes/uploadRoutes");
 
 // middlewares
 app.use(express.json());
@@ -27,7 +30,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
