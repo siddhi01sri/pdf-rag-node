@@ -5,7 +5,7 @@ dotenv.config();
 const app = express();
 
 // routes
-const uploadRoutes = require("./src/routes/uploadRoutes");
+const uploadRoutes = require("./src/routes/pdfRoutes");
 
 // middlewares
 app.use(express.json());
@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
 });
 
 // API routes
-app.use("/api", uploadRoutes);
+app.use("/api/v1", uploadRoutes);
 
 // global error handler (basic)
 app.use((err, req, res, next) => {
