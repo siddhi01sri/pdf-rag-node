@@ -5,7 +5,8 @@ dotenv.config();
 const app = express();
 
 // routes
-const uploadRoutes = require("./src/routes/uploadRoutes");
+const uploadRoutes = require("./src/routes/upload.routes");
+const chatRoutes = require("./src/routes/chat.routes");
 
 // middlewares
 app.use(express.json());
@@ -19,7 +20,10 @@ app.get("/", (req, res) => {
 });
 
 // API routes
-app.use("/api", uploadRoutes);
+
+app.use("/api/v1", uploadRoutes);
+app.use("/api/chat", chatRoutes);
+
 
 // global error handler (basic)
 app.use((err, req, res, next) => {
