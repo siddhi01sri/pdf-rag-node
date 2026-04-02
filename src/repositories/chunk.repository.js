@@ -35,8 +35,28 @@ const matchDocumentChunks = async (queryEmbedding, matchCount = 5) => {
   return rows;
 };
 
+const matchChunksByDocumentId = async (documentId, queryEmbedding, matchCount = 5) => {
+  const query = `
+    select
+      dc.id,
+      dc.document_id,
+      dc.chunk_index,
+      dc.content,
+      1 - (dc.embedding <=> $2::vector) as similarity
+    from document_chunks dc
+    where dc.document_id = $1
+    order by dc.embedding <=> $2::vector
+    limit $3;
+  `;
+
+  const values = [documentId, JSON.stringify(queryEmbedding), matchCount];
+  const { rows } = await pool.query(query, values);
+  return rows;
+};
+
 module.exports = {
   insertChunk,
   insertChunksBulk,
-  matchDocumentChunks
+  matchDocumentChunks,
+  matchChunksByDocumentId
 };
