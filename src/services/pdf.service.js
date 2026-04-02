@@ -1,8 +1,13 @@
 const fs = require("fs");
+const path = require("path");
 const pdfjsLib = require("pdfjs-dist/legacy/build/pdf.js");
 
-// Suppress the GlobalWorkerOptions warning in Node.js
+// In Node.js, we don't need a worker file here
 pdfjsLib.GlobalWorkerOptions.workerSrc = null;
+
+// Important: add trailing slash at the end
+const standardFontDataUrl =
+  path.join(process.cwd(), "node_modules", "pdfjs-dist", "standard_fonts") + "\\";
 
 const extractTextFromPdf = async (filePath) => {
   try {
@@ -11,8 +16,9 @@ const extractTextFromPdf = async (filePath) => {
 
     const loadingTask = pdfjsLib.getDocument({
       data: uint8Array,
-      stopAtErrors: false,       // tolerate bad XRef entries
-      ignoreErrors: true,        // skip pages with rendering errors
+      stopAtErrors: false,
+      ignoreErrors: true,
+      standardFontDataUrl
     });
 
     const pdf = await loadingTask.promise;
