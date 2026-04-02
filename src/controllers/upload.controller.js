@@ -4,15 +4,23 @@ const { chunkText } = require("../utils/textChunker");
 const { createEmbeddingsForChunks } = require("../services/embedding.service");
 const { createDocument } = require("../repositories/document.repository");
 const { insertChunksBulk } = require("../repositories/chunk.repository");
+const logger = require("../utils/logger");
 
 const uploadPdf = async (req, res) => {
   try {
     if (!req.file) {
+      logger.warn("Upload request received without file");
       return res.status(400).json({
         success: false,
         message: "No file uploaded"
       });
     }
+
+     logger.info("PDF upload started", {
+      originalName: req.file.originalname,
+      fileName: req.file.filename,
+      size: req.file.size
+    });
 
     const filePath = path.join(process.cwd(), req.file.path);
 
@@ -37,6 +45,14 @@ const uploadPdf = async (req, res) => {
 
     await insertChunksBulk(chunkRows) ;
    
+      logger.info("PDF uploaded and stored successfully", {
+      documentId: document.id,
+      originalName: req.file.originalname,
+      numberOfPages: parsedPdf.numberOfPages,
+      totalChunks: chunks.length,
+      totalEmbeddings: embeddedChunks.length
+    });
+    
    return res.status(200).json({
   success: true,
   message: "PDF uploaded, parsed, embedded, and stored successfully",

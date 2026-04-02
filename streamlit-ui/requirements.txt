@@ -1,0 +1,2 @@
+streamlit
+requestsn dev

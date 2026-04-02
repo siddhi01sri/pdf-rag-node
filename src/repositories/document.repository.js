@@ -12,6 +12,31 @@ const createDocument = async ({ filename, originalName, filePath, fileSize }) =>
   return rows[0];
 };
 
+const getAllDocuments = async () => {
+  const query = `
+    select *
+    from documents
+    order by uploaded_at desc;
+  `;
+
+  const { rows } = await pool.query(query);
+  return rows;
+};
+
+const getDocumentById = async (documentId) => {
+  const query = `
+    select *
+    from documents
+    where id = $1;
+  `;
+
+  const { rows } = await pool.query(query, [documentId]);
+  return rows[0];
+};
+
+
 module.exports = {
-  createDocument
+  createDocument,
+  getAllDocuments,
+  getDocumentById
 };
