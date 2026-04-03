@@ -49,6 +49,7 @@ if uploaded_file is not None:
                 )
 
             if response.status_code == 200:
+                
                 data = response.json()["data"]
                 st.success("PDF uploaded successfully!")
                 st.write(f"**File:** {data.get('originalName')}")

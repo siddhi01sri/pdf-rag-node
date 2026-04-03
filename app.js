@@ -1,6 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
-
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./src/config/swagger");
 
 
 dotenv.config();
@@ -34,6 +35,9 @@ app.use("/api/v1", uploadRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/documents", documentRoutes);
 app.use("/api/health", healthRoutes);
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 
 // global error handler
 app.use((err, req, res, next) => {
